@@ -1,0 +1,8 @@
+name: locationBorder
+version: 1.0.1
+author: merp
+main: me.merp.locationBorder.Main
+description: creates border; spawns players to random location; border shrinks after 10 min
+
+commands:
+  locationborder:

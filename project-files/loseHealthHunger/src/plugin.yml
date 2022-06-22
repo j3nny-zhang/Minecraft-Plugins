@@ -1,0 +1,7 @@
+name: loseHealthHunger
+version: 1.0.1
+author: merp
+main: me.merp.loseHealthHunger.Main
+description: Lose hunger when breaking blocks; lose health when placing blocks
+commands:
+  loseHealthHunger:
