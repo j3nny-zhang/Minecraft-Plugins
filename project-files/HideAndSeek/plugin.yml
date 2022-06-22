@@ -1,0 +1,9 @@
+main: me.Razlze.HideAndSeek.Main
+name: HideAndSeek
+version: 1.0
+description: Play hide and seek!
+api-version: 1.18
+
+commands:
+   hideandseek: 
+      description: Start a game of hide and seek. 
