@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
 public class Main extends JavaPlugin {
@@ -75,13 +76,14 @@ public class Main extends JavaPlugin {
 					players.get(i).sendTitle("You are the seeker!", "Wait for the hiders to cower away!");
 				} else {
 					players.get(i).sendTitle("You are a hider!", "Go hide before the timer counts down!");
+								
+				}
 				
 				// teleport each player
 				int x = (int) (Math.random() * 1000-500);
 				int z = (int) (Math.random() * 1000-500);
 				int y = players.get(i).getWorld().getHighestBlockYAt(x, z);
-				players.get(i).teleport(new org.bukkit.Location(players.get(i).getWorld(), x, y, z));				
-				}
+				players.get(i).teleport(new org.bukkit.Location(players.get(i).getWorld(), x, y, z));
 			} // -------------------------------------------------------------------------
 			
 			Bukkit.broadcastMessage(seeker.getName() + " is the seeker!");
@@ -103,7 +105,17 @@ public class Main extends JavaPlugin {
 		            	cancel();
 		            }
 				}
-			}.runTaskTimer(this,70,20); // --------------------------------------------------			
+			}.runTaskTimer(this,70,20); // --------------------------------------------------	
+			
+			BukkitScheduler scheduler = getServer().getScheduler();
+	        scheduler.scheduleAsyncRepeatingTask(this, new Runnable() {
+	            @Override
+	            public void run() {
+	            	Bukkit.broadcastMessage("testinggg");
+	            }
+	        }, 400L, 1200L);
+	        
+	        Bukkit.broadcastMessage("asynchronous?!?!?!");
 		
 			return true;
 		}		
