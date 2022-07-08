@@ -1,6 +1,7 @@
 package me.Razlze.HideAndSeek;
 
 import java.util.ArrayList;
+
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -45,7 +46,6 @@ public class Main extends JavaPlugin {
 			counter = 20;
 			gameRunning = true;
 			
-			/* ------------- comment out for testing ------------------------------
 			if(args.length != 0) {
 				for(int i = 0; i < players.size(); i++) {
 					if(players.get(i).getName().equalsIgnoreCase(args[0])) {
@@ -60,7 +60,7 @@ public class Main extends JavaPlugin {
 				Random rand = new Random();
 				int randomIndex = rand.nextInt(players.size());				
 				seeker = players.get(randomIndex);
-			} ------------------------------------------------------- */
+			} // -------------------------------------------------------------------------
 			
 			// generate smaller world border
 			border.setCenter(0.0, 0);
@@ -68,26 +68,25 @@ public class Main extends JavaPlugin {
 			border.setDamageBuffer(0.0);
 			border.setDamageAmount(0.5);			
 			
-			//sending starting messages and teleport all players
+			//sending starting messages and teleport all players --------------------------
 			for(int i = 0; i < players.size(); i++) {
 				
-				/* comment out for testing -----------------------
 				if(players.get(i) == seeker) {
 					players.get(i).sendTitle("You are the seeker!", "Wait for the hiders to cower away!");
 				} else {
 					players.get(i).sendTitle("You are a hider!", "Go hide before the timer counts down!");
-				} -------------------------------------------- */
 				
 				// teleport each player
 				int x = (int) (Math.random() * 1000-500);
 				int z = (int) (Math.random() * 1000-500);
 				int y = players.get(i).getWorld().getHighestBlockYAt(x, z);
 				players.get(i).teleport(new org.bukkit.Location(players.get(i).getWorld(), x, y, z));				
-			}
+				}
+			} // -------------------------------------------------------------------------
 			
-			/* ---------------------- comment out for testing -------------------------------
+			Bukkit.broadcastMessage(seeker.getName() + " is the seeker!");
 			
-			// add blindness to the seeker and display counter
+			// add blindness to the seeker and display counter ---------------------------
 			BukkitTask task = new BukkitRunnable() {
 				
 				public void run() {
@@ -104,15 +103,10 @@ public class Main extends JavaPlugin {
 		            	cancel();
 		            }
 				}
-			}.runTaskTimer(this,70,20);
-			
-			-------------------------------------------------------------------------------------- */
+			}.runTaskTimer(this,70,20); // --------------------------------------------------			
 		
 			return true;
 		}		
 		return false;
 	}
 }
-
-
-
