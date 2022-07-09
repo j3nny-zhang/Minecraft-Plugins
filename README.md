@@ -7,3 +7,4 @@ Visit the project_files folder to see source code of plugins.
 - [X] loseHealthHunger (1.18+): A fun challenge where players lose a random amount of health while placing blocks, and random amount of hunger while placing blocks.      - use command /loseHealthhunger <bool>
 - [ ] hideAndSeek (1.18.2+): Play hide and seek where the hiders will reveal a "glow effect" every few minutes. How long will it take the seeker to win?
     - currently in progress
+    - use command /hideAndSeek <player username [optional]> (enter player username as argument to determine seeker, otherwise assigns random seeker)
