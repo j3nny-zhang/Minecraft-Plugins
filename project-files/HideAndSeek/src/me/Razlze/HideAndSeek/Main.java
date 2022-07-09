@@ -20,7 +20,8 @@ import org.bukkit.scheduler.BukkitTask;
 public class Main extends JavaPlugin {
 	public static int counter = 20; 
 	public static boolean gameRunning = false;
-	public static Player seeker = null;
+	public static ArrayList<Player> seekers = new ArrayList<>();
+	public static Player firstSeeker = null;
 	
 	double size = 1024.0;
 	World world = Bukkit.getServer().getWorlds().get(0);
@@ -50,7 +51,8 @@ public class Main extends JavaPlugin {
 			if(args.length != 0) {
 				for(int i = 0; i < players.size(); i++) {
 					if(players.get(i).getName().equalsIgnoreCase(args[0])) {
-						seeker = players.get(i);
+						seekers.add(players.get(i));
+						firstSeeker = seekers.get(0);
 					} else {
 						sender.sendMessage(args[0] + " is not a valid player.");
 						return false;
@@ -60,7 +62,8 @@ public class Main extends JavaPlugin {
 				// set seeker
 				Random rand = new Random();
 				int randomIndex = rand.nextInt(players.size());				
-				seeker = players.get(randomIndex);
+				seekers.add(players.get(randomIndex));
+				firstSeeker = seekers.get(0);
 			} // -------------------------------------------------------------------------
 			
 			// generate smaller world border
@@ -72,7 +75,7 @@ public class Main extends JavaPlugin {
 			//sending starting messages and teleport all players --------------------------
 			for(int i = 0; i < players.size(); i++) {
 				
-				if(players.get(i) == seeker) {
+				if(seekers.contains(players.get(i))) {
 					players.get(i).sendTitle("You are the seeker!", "Wait for the hiders to cower away!");
 				} else {
 					players.get(i).sendTitle("You are a hider!", "Go hide before the timer counts down!");
@@ -82,18 +85,18 @@ public class Main extends JavaPlugin {
 				// teleport each player
 				int x = (int) (Math.random() * 1000-500);
 				int z = (int) (Math.random() * 1000-500);
-				int y = players.get(i).getWorld().getHighestBlockYAt(x, z);
+				int y = players.get(i).getWorld().getHighestBlockYAt(x, z) + 1;
 				players.get(i).teleport(new org.bukkit.Location(players.get(i).getWorld(), x, y, z));
 			} // -------------------------------------------------------------------------
 			
-			Bukkit.broadcastMessage(seeker.getName() + " is the seeker!");
+			Bukkit.broadcastMessage(firstSeeker.getName() + " is the seeker!");
 			
 			// add blindness to the seeker and display counter ---------------------------
 			BukkitTask task = new BukkitRunnable() {
 				
 				public void run() {
 					
-					seeker.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 9999));
+					firstSeeker.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 100, 9999));
 					
 					for(Player p : players) { 
 		            	p.sendTitle(String.valueOf(counter), "", 5, 20, 5); // display counter
@@ -111,9 +114,14 @@ public class Main extends JavaPlugin {
 	        scheduler.scheduleAsyncRepeatingTask(this, new Runnable() {
 	            @Override
 	            public void run() {
-	            	Bukkit.broadcastMessage("testinggg");
+	            	for(int i = 0; i < players.size(); i++) {
+	            		if(seekers.contains(players.get(i))) { // change to compliment statement after
+	            			// adding glow effect is not working ----------------------------------
+	            			players.get(i).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 100, 1));
+	            		}
+	            	}
 	            }
-	        }, 400L, 1200L);
+	        }, 460L, 2400L); // ----------------------------------------------------------------------
 	        
 	        Bukkit.broadcastMessage("asynchronous?!?!?!");
 		
